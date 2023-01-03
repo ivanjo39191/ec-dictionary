@@ -1,0 +1,17 @@
+label.inline {
+    color: initial;
+}
+
+fieldset .form-row label.required::after, fieldset .suit-form .form-group label.required::after {
+    content: '*';
+    margin: 0 0 0 5px;
+    position: absolute;
+    color: red;
+}
+
+body.suit_layout_horizontal #header #branding {
+  /*  min-width: 500px;
+    padding-left: 1.875rem;*/
+}
+
+

@@ -1,0 +1,65 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+{% load core_tag %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+  {% if title %} &rsaquo; {% if back %} <a href="{{ back }}">{{ title }}</a> {% else %} {{ title }} {% endif %}{% endif %}
+  {% if subtitle %} &rsaquo; {{ subtitle|safe }}{% endif %}
+</div>
+{% endblock %}
+
+{% block content %}
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+<style>
+
+</style>
+<div class="card">
+    <div class="results">
+        <table id="result_list">
+        <thead>
+            <tr>
+                {% for item in failure_header %}
+                <th scope="col">
+                    <div class="text"><span>{{ item|safe }}</span></div>
+                    <div class="clear"></div>
+                </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in failure_list %}
+            <tr class="row1" id="{{ row.0 }}">
+                <td>{{ row|safe }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    </div>
+</div> 
+<div class="card">
+    <div class="results">
+        <table id="result_list">
+        <thead>
+            <tr>
+                {% for item in success_header %}
+                <th scope="col">
+                    <div class="text"><span>{{ item|safe }}</span></div>
+                    <div class="clear"></div>
+                </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in success_list %}
+            <tr class="row1" id="{{ row.0 }}">
+                <td>{{ row|safe }}</td>              
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

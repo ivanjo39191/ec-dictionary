@@ -1,0 +1,78 @@
+{% extends 'admin/change_list.html' %}
+{% load i18n admin_list admin_urls static admin_list  suit_list %}
+
+{% block search %}{% suit_search_form cl %}{% endblock %}
+{% block object-tools %}
+  <ul class="object-tools">
+    {% block object-tools-items %}
+      <li>
+        <a href="{% url 'ecdict:ecdict_form' %}" class="not add_tenant">批次新增單字</a>
+      </li>
+      {% if has_add_permission %}
+      <li>
+        {% url cl.opts|admin_urlname:'add' as add_url %}
+        <a href="{% add_preserved_filters add_url is_popup to_field %}" class="addlink">
+          {% blocktranslate with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktranslate %}
+        </a>
+      </li>
+      {% endif %}
+    {% endblock %}
+  </ul>
+{% endblock %}
+{% block filters %}
+    {% if cl.has_filters %}
+        <div id="changelist-filter">{% for spec in cl.filter_specs|suit_list_filter_vertical:cl %}
+            {% if forloop.first %}
+                <h2>{% trans 'Filter' %}</h2>
+            {% endif %}
+            {% admin_list_filter cl spec %}
+        {% endfor %}</div>
+    {% endif %}
+    {% with cl.filter_specs|suit_list_filter_vertical:cl as cl_filter_list %}
+
+    {% if cl_filter_list %}
+        <style type="text/css">
+            @media (min-width: 1470px){
+                .changelist-form-container{
+                    flex-shrink: 0;
+                    width: 85%;
+                    margin-right: 10px;
+                }
+            }
+            @media (max-width: 1470px){
+                .changelist-form-container{
+                    flex-shrink: 0;
+                    width: 100%;
+                }
+            }
+        </style>
+    {% else %}
+        {% if cl.has_filters %}
+            <style type="text/css">
+                .changelist-form-container{
+                    flex-shrink: 0;
+                    width: 100%;
+                    }
+                }
+            </style>
+        {% else %}
+            <style type="text/css">
+              #changelist {
+                width:100%;
+              }
+            </style>                
+        {% endif %}
+    {% endif %}
+    {% endwith %}
+{% endblock %}
+
+{% block footer %}
+    {{ block.super }}
+
+    {% if cl.has_filters %}
+        <script type="text/javascript">
+            // Handle change list filter null values
+            Suit.$('.search-filter').suitSearchFilters();
+        </script>
+    {% endif %}
+{% endblock %}

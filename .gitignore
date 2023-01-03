@@ -1,0 +1,5 @@
+data
+nginx
+.env
+.history
+app.sock

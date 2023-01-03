@@ -1,0 +1,62 @@
+{% extends 'admin/change_list.html' %}
+{% load i18n admin_list suit_list %}
+
+{% block search %}{% suit_search_form cl %}{% endblock %}
+
+{% block filters %}
+    {% if cl.has_filters %}
+        <div id="changelist-filter">{% for spec in cl.filter_specs|suit_list_filter_vertical:cl %}
+            {% if forloop.first %}
+                <h2>{% trans 'Filter' %}</h2>
+            {% endif %}
+            {% admin_list_filter cl spec %}
+        {% endfor %}</div>
+    {% endif %}
+    {% with cl.filter_specs|suit_list_filter_vertical:cl as cl_filter_list %}
+
+    {% if cl_filter_list %}
+        <style type="text/css">
+            @media (min-width: 1470px){
+                .changelist-form-container{
+                    flex-shrink: 0;
+                    width: 85%;
+                    margin-right: 10px;
+                }
+            }
+            @media (max-width: 1470px){
+                .changelist-form-container{
+                    flex-shrink: 0;
+                    width: 100%;
+                }
+            }
+        </style>
+    {% else %}
+        {% if cl.has_filters %}
+            <style type="text/css">
+                .changelist-form-container{
+                    flex-shrink: 0;
+                    width: 100%;
+                    }
+                }
+            </style>
+        {% else %}
+            <style type="text/css">
+              #changelist {
+                width:100%;
+              }
+            </style>                
+        {% endif %}
+    {% endif %}
+    {% endwith %}
+{% endblock %}
+
+{% block footer %}
+    {{ block.super }}
+
+    {% if cl.has_filters %}
+        <script type="text/javascript">
+            // Handle change list filter null values
+            Suit.$('.search-filter').suitSearchFilters();
+        </script>
+    {% endif %}
+{% endblock %}
